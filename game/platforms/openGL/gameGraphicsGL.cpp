@@ -289,8 +289,9 @@ void toggleTransparentCropping( char inCrop ) {
     }
 
 
-#ifdef GLES
-// GL ES versions of these functions
+#if defined( GLES ) || defined( WIN32 )
+// Compatibility versions of these functions.
+// Some Windows OpenGL compatibility layers reject GL_QUADS, so use triangles.
 
 
 static double *quadVertsToTriangles( int inNumQuads, double inVertices[] ) {
