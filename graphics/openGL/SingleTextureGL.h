@@ -231,9 +231,28 @@ class SingleTextureGL {
 
 inline void SingleTextureGL::enable() {	
 
+    int error;
+
+#ifdef WIN32
+    while( ( error = glGetError() ) != GL_NO_ERROR ) {
+        printf( "Pre-existing GL error before enabling texture id %d "
+                "(%ux%u), error = %d\n",
+                (int)mTextureID, mWidthBackup, mHeightBackup, error );
+        }
+#endif
+
     if( !sTexturingEnabled ) {    
         glEnable( GL_TEXTURE_2D );
         sTexturingEnabled = true;
+
+#ifdef WIN32
+        error = glGetError();
+        if( error != GL_NO_ERROR ) {
+            printf( "Error enabling GL_TEXTURE_2D before texture id %d "
+                    "(%ux%u), error = %d\n",
+                    (int)mTextureID, mWidthBackup, mHeightBackup, error );
+            }
+#endif
         }
     
     if( sLastBoundTextureID != mTextureID ) {
@@ -241,10 +260,10 @@ inline void SingleTextureGL::enable() {
         
         sLastBoundTextureID = mTextureID;
         
-        int error = glGetError();
+        error = glGetError();
         if( error != GL_NO_ERROR ) {		// error
-            printf( "Error binding texture id %d, error = %d\n",
-                    (int)mTextureID, error );
+            printf( "Error binding texture id %d (%ux%u), error = %d\n",
+                    (int)mTextureID, mWidthBackup, mHeightBackup, error );
             sLastBoundTextureID = -1;
             }
         }
@@ -254,5 +273,4 @@ inline void SingleTextureGL::enable() {
 	
 	
 #endif
-
 

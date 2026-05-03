@@ -674,6 +674,14 @@ void SpriteGL::draw( int inFrame,
     
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
+#ifdef WIN32
+    int error = glGetError();
+    if( error != GL_NO_ERROR ) {
+        printf( "Error drawing sprite (%dx%d), error = %d\n",
+                mWidth, mHeight, error );
+        }
+#endif
+
     glDisableClientState( GL_VERTEX_ARRAY );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     }
@@ -727,6 +735,14 @@ void SpriteGL::draw( int inFrame,
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+#ifdef WIN32
+    int error = glGetError();
+    if( error != GL_NO_ERROR ) {
+        printf( "Error drawing colored sprite (%dx%d), error = %d\n",
+                mWidth, mHeight, error );
+        }
+#endif
 
     glDisableClientState( GL_VERTEX_ARRAY );
     glDisableClientState( GL_COLOR_ARRAY );
@@ -1001,6 +1017,14 @@ void SpriteGL::draw( int inFrame,
     
     glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
 
+#ifdef WIN32
+    int error = glGetError();
+    if( error != GL_NO_ERROR ) {
+        printf( "Error drawing sprite (%dx%d), error = %d\n",
+                mWidth, mHeight, error );
+        }
+#endif
+
 
     /*
       // for debugging
@@ -1078,6 +1102,14 @@ void SpriteGL::draw( int inFrame,
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
+#ifdef WIN32
+    int error = glGetError();
+    if( error != GL_NO_ERROR ) {
+        printf( "Error drawing colored sprite (%dx%d), error = %d\n",
+                mWidth, mHeight, error );
+        }
+#endif
+
     
     glDisableClientState( GL_COLOR_ARRAY );
     }
@@ -1150,6 +1182,14 @@ void SpriteGL::draw( int inFrame,
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
+#ifdef WIN32
+    int error = glGetError();
+    if( error != GL_NO_ERROR ) {
+        printf( "Error drawing colored sprite (%dx%d), error = %d\n",
+                mWidth, mHeight, error );
+        }
+#endif
+
     
     glDisableClientState( GL_COLOR_ARRAY );
     }
@@ -1157,5 +1197,4 @@ void SpriteGL::draw( int inFrame,
 
 
 #endif
-
 
