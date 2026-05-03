@@ -433,10 +433,9 @@ void SingleTextureGL::setTextureData( unsigned char *inBytes,
         }
     
     if( mMipMap ) {
-        // GL_GENERATE_MIPMAP not available on some platforms,
-        // like mingw
-        // use gluBuild2DMipmaps in that case
-       #ifdef GL_GENERATE_MIPMAP
+        // GL_GENERATE_MIPMAP is exposed by some Windows headers even when the
+        // runtime OpenGL implementation is too old to accept it.
+       #if defined( GL_GENERATE_MIPMAP ) && ! defined( WIN32 )
             glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE );
             
             glTexImage2D( GL_TEXTURE_2D, 0,
