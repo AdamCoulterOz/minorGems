@@ -274,6 +274,10 @@ void toggleMipMapGeneration( char inGenerateMipMaps ) {
 static char mipMapTextureFilterOn = false;
 
 void toggleMipMapMinFilter( char inMipMapFilterOn ) {
+#ifdef WIN32
+    // Match Windows mipmap generation compatibility behavior in SpriteGL.
+    inMipMapFilterOn = false;
+#endif
     mipMapTextureFilterOn = inMipMapFilterOn;
     }
 

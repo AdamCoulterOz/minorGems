@@ -18,6 +18,12 @@ class SpriteGL{
         
         // toggles for subsequent constructor calls
         static void toggleMipMapGeneration( char inGenerateMipMaps ) {
+#ifdef WIN32
+            // Some Windows OpenGL runtimes, including Microsoft Remote Display,
+            // expose mipmap-related symbols that fail or render alpha textures
+            // incorrectly at runtime.
+            inGenerateMipMaps = false;
+#endif
             sGenerateMipMaps = inGenerateMipMaps;
             }
             
