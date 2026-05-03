@@ -420,8 +420,16 @@ void SingleTextureGL::setTextureData( unsigned char *inBytes,
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
         }
     else {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+        GLenum clampMode = GL_CLAMP_TO_EDGE;
+
+#ifdef WIN32
+        // Windows headers expose GL_CLAMP_TO_EDGE even when the runtime
+        // OpenGL implementation is too old to accept it.
+        clampMode = GL_CLAMP;
+#endif
+
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, clampMode );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, clampMode );
         }
     
     if( mMipMap ) {
