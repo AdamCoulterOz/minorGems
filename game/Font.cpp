@@ -79,11 +79,23 @@ Font::Font( const char *inFileName, int inCharSpacing, int inSpaceWidth,
         // mask it
 
         for( int i=0; i<numPixels; i++ ) {
-            spriteRGBA[i].comp.a = spriteRGBA[i].comp.r;
-            
-            spriteRGBA[i].comp.r = 255;
-            spriteRGBA[i].comp.g = 255;
-            spriteRGBA[i].comp.b = 255;
+            unsigned char alpha = spriteRGBA[i].comp.r;
+
+            spriteRGBA[i].comp.a = alpha;
+
+            // Fully-transparent font pixels must not carry visible color.
+            // Some Windows OpenGL paths have been observed to ignore glyph
+            // alpha during texture blending, which otherwise turns each
+            // character cell into a solid white rectangle.
+            unsigned char color = 0;
+
+            if( alpha > 0 ) {
+                color = 255;
+                }
+
+            spriteRGBA[i].comp.r = color;
+            spriteRGBA[i].comp.g = color;
+            spriteRGBA[i].comp.b = color;
             }
             
                         
@@ -664,6 +676,4 @@ void Font::enableKerning( char inKerningOn ) {
 void Font::setMinimumPositionPrecision( double inMinimum ) {
     mMinimumPositionPrecision = inMinimum;
     }
-
-
 
